@@ -13,10 +13,10 @@
 
 clear all;  close all; clc
 
-L  = 1.5*pi; 
+L  = .5*pi; 
 N  = 1000;  dx = L/(N-1);  % size of the "infinitasimal" x for integration
 x  = 0:dx:L;               % x values
-
+xrange = [x(1) x(end)];            % x range for plot
 
 %% Define function f
 f      = zeros(size(x)); 
@@ -29,7 +29,6 @@ f(bound2+1:end)  = -1; %Define f
 %% Gibbs phenomenon with n=100
 n = 100; 
 [SinSeries, ~] = FSsine(n,f,L,dx,x);
-xrange = [0.1 4.5]; 
 figure; plotFS_Gibbs(x,f,SinSeries,n,xrange); 
 
 %% Gibbs phenomenon with n=300
@@ -53,12 +52,12 @@ title('at L=pi (n=300)')
 
 
 %% animation
-for n=25*(1:12)
+for n=20*(1:16)
 [SinSeries, ~] = FSsine(n,f,L,dx,x);
-xrange = [1 3.5]; 
+xrange =  [x(200) x(800)]; 
 clf; 
-plotFS_Gibbs(x,f,SinSeries,n,xrange); 
-drawnow; pause(0.5)
+plotFS_Gibbs(x,f,SinSeries,n,xrange); set_positionFontsAll;
+drawnow; pause(0.5); 
 end
 
 
