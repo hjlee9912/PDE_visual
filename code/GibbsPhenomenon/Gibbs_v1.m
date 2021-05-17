@@ -1,9 +1,9 @@
 % This code demonstrates Gibbs Phenomenon. 
-%The Fourier Sine Series of f is used 
-%where f=0 @[0,pi/2] & f=1 @[pi/2,pi] & f=-1 @[pi,1.5pi]
-%Difference in the frequencies at n=100 and n=300 is shown,
-%as well as the difference in the overshoot at the two jump discontinuities. 
-%Written by Hojun Lee 
+% The Fourier Sine Series of f is used 
+% where f=0 @[0,pi/2] & f=1 @[pi/2,pi] & f=-1 @[pi,1.5pi]
+% Difference in the frequencies at n=100 and n=300 is shown,
+% as well as the difference in the overshoot at the two jump discontinuities. 
+% Written by Hojun Lee, Fei Lu
 
 %{
 %%%%% TODO (in summer)
@@ -30,12 +30,12 @@ f(bound2+1:end)  = -1; %Define f
 n = 100; 
 [SinSeries, ~] = FSsine(n,f,L,dx,x);
 xrange = [0.1 4.5]; 
-plotFS_Gibbs(x,f,SinSeries,n,xrange); 
+figure; plotFS_Gibbs(x,f,SinSeries,n,xrange); 
 
 %% Gibbs phenomenon with n=300
 n = 300; 
 [SinSeries, ~] = FSsine(n,f, L,dx,x);
-plotFS_Gibbs(x,f,SinSeries,n,xrange); 
+figure; plotFS_Gibbs(x,f,SinSeries,n,xrange); 
 
 % Zoomed in at the first jump discontinuity (n=300)
 figure
@@ -45,35 +45,21 @@ xlim([x(bound1-50) x(bound1+50)]);
 title('at L=pi/2 (n=300)')
 
 % Zoomed in at the second jump discontinuity (n=300)
-figure
+figure; 
 plot(x,f,'k','LineWidth',2);          hold on
 plot(x,SinSeries,'c-','LineWidth',1); 
 xlim([x(bound2-50) x(bound2+50)]);
 title('at L=pi (n=300)')
 
 
-function [SinSeries, Bn_all] = FSsine(K,f, L,dx,x_mesh)
-% evaluate the Fourier sine seires with K modes
-% the coefficients are approximated by Riemann sum (can do better by integration functions in MATLAB)
-SinSeries = 0; 
-Bn_all    = zeros(1,K);
-x_mesh    = x_mesh*(pi/L); 
-for n=1:K %How many "n" vales? Sine seires starts with n=1
-    eigenf     = sin(n*x_mesh); %Eigen function for the Fourier Sine Series
-    Bn         = dot(f,eigenf)*dx*2/L; %Coefficient for the Fourier Sine Series
-    SinSeries  = SinSeries+Bn*eigenf; %Fourier Sine Series
-    Bn_all(n)  = Bn; 
+%% animation
+for n=25*(1:12)
+[SinSeries, ~] = FSsine(n,f,L,dx,x);
+xrange = [1 3.5]; 
+clf; 
+plotFS_Gibbs(x,f,SinSeries,n,xrange); 
+drawnow; pause(0.5)
 end
 
-end
 
-function plotFS_Gibbs(x,f,SinSeries,n,xrange)
-% plot the Gibbs phenomenon
-figure; 
-plot(x,f,'k','LineWidth',2);          hold on; 
-plot(x,SinSeries,'g-','LineWidth',1);
-yline( (max(f)-min(f))*0.09 + max(f)); 
-xlim(xrange); 
-legend('Function f','Fourier Series','9% overshot line')
-title(sprintf('Gibbs Phenomenon (n=%i)',n) );
-end
+
