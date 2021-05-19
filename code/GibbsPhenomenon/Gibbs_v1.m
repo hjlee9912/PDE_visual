@@ -52,13 +52,28 @@ title('at L=pi (n=300)')
 
 
 %% animation
+index=1;
+fig=figure;
 for n=20*(1:16)
-[SinSeries, ~] = FSsine(n,f,L,dx,x);
-xrange =  [x(200) x(800)]; 
-clf; 
-plotFS_Gibbs(x,f,SinSeries,n,xrange); set_positionFontsAll;
-drawnow; pause(0.5); 
+    [SinSeries, ~] = FSsine(n,f,L,dx,x);
+    xrange =  [x(200) x(800)]; 
+    plotFS_Gibbs(x,f,SinSeries,n,xrange); set_positionFontsAll;
+    drawnow; 
+    frame = getframe(fig);
+    im{index} = frame2im(frame); %Create cell array of images. (image for each n)
+    index=index+1;
+    clf;
 end
+
+figure; %Show the image cell array
+for idx=1:16
+    subplot(4,4,idx)
+    imshow(im{idx});
+end
+
+filename = 'ConvergenceFS.gif';
+im_to_gif(filename,im,idx); %Create gif file
+
 
 
 
