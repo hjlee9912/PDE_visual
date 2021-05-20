@@ -13,6 +13,8 @@
 
 clear all;  close all; clc
 
+add_my_paths;
+
 L  = .5*pi; 
 N  = 1000;  dx = L/(N-1);  % size of the "infinitasimal" x for integration
 x  = 0:dx:L;               % x values

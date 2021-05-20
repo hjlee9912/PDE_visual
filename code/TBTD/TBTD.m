@@ -3,7 +3,10 @@
 %The convergence of the FS and the divergence of the TBTD of the FS are shown. 
 %Written by Hojun Lee,Fei Lu
 
+
 clear all;  close all; clc
+add_my_paths; 
+
 L  = .5*pi; 
 N  = 1000;  dx = L/(N-1);  % size of the "infinitasimal" x for integration
 x  = 0:dx:L;               % x values
@@ -15,8 +18,8 @@ xlength=length(x);
 f_prime = ones([1,xlength]);
 fig=figure;
 index=1;
-titlee='FS f=x';
-leg='Function of f';
+titlee='Fourier Series of f=x';
+leg='Function f';
 for n=20*(1:16)
     [SinSeries, ~] = FSsine(n,f,L,dx,x);
     xrange =  [x(200) x(800)]; 
@@ -32,8 +35,8 @@ close;
 fig2=figure;
 index=1;
 tbtd=0;
-titlee2='TBTD of FS f=x';
-leg2="Function of f'";
+titlee2='TBTD of FS for f=x';
+leg2="Function f'";
 for n=20*(1:16)
     for k=1:n
         tbtd=tbtd+2*(-1)^(k+1)*cos(k*pi*x/L); 
