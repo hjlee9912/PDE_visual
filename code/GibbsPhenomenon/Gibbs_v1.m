@@ -34,8 +34,8 @@ n = 100;
 figure; plotFS_Gibbs(x,f,SinSeries,n,xrange); 
 
 %% Gibbs phenomenon with n=300
-n = 300; 
-[SinSeries, ~] = FSsine(n,f, L,dx,x);
+n = 320; 
+[SinSeries, Bn_all] = FSsine(n,f, L,dx,x);
 figure; plotFS_Gibbs(x,f,SinSeries,n,xrange); 
 
 % Zoomed in at the first jump discontinuity (n=300)
@@ -51,6 +51,15 @@ plot(x,f,'k','LineWidth',2);          hold on
 plot(x,SinSeries,'c-','LineWidth',1); 
 xlim([x(bound2-50) x(bound2+50)]);
 title('at L=pi (n=300)')
+
+
+FS_l2 =  cumsum(Bn_all.^2); % mean squares
+f_l2  = FS_l2(end); 
+errL2 = f_l2- FS_l2; 
+
+figure; 
+% plot(FS_l2,'linewidth',2);  hold on; 
+plot(errL2,'linewidth',2); 
 
 
 %% animation
