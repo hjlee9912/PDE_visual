@@ -3,6 +3,9 @@ function [sol,An,Bn] = LaplaceSol_circle(K,f, a,t,dt,r)
 %The solution has both cosine and sine parts
 %evaluate the Fourier seires with K modes
 % the coefficients are approximated by Riemann sum (can do better by integration functions in MATLAB)
+
+%Not showing the expected result - the BC is not satisfiled in the final solution
+
 sinSeries = 0; 
 cosSeries = 0;
 
