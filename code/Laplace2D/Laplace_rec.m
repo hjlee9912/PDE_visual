@@ -50,7 +50,7 @@ figure; surf(xx,yy,u); xlabel('x'); ylabel('y'); title('Solution of Laplace on r
 colormap(parula(100)); shading interp; lighting phong; view([10,32]);
 set_positionFontsAll; 
 % saveas(gcf,'Laplace_Rectangle.png');
-%%  check boundary:  >> plot rectangle, which can be used in the future 
+%%  check boundary:  >> plot the boundary condition on the rectangle, which can be used in the future 
 
 xx(3:NN-2,3:NN-3) =   NaN;
 yy(3:NN-2,3:NN-2) =   NaN;
