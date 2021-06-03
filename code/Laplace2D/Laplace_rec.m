@@ -13,7 +13,7 @@ y  = 0:dy:H;
 
 [xx,yy] = meshgrid(x,y);   % create meshgrid for 3D plot
 %% Boundary Values
-f        = @(x) sin(x)+exp(x);
+f        = @(x) sin(x).*exp(x);
 K        = 10; % number of terms in FS
 type     = 'sine'; % type of FS, 'sine', 'cosine', 'mixed'
 

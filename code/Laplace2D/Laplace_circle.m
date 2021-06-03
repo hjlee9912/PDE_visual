@@ -18,7 +18,7 @@ r     = 0:dr:a;
 
 %% Boundary value:  - should not use the whole mesh for f --- only use the boudnary 
 % boundary value in polor coordinates: f(theta)
-f        = @(x) sin(x)+exp(x);
+f        = @(x) sin(x).*exp(x);
 K        = 10; % number of terms in FS
 type     = 'mixed'; % type of FS, 'sine', 'cosine', 'mixed'
 [fs_coefs, An_all, Bn_all] = computFS_coef(f,pi,theta,K,type);  % compute Fourier coefficiets of f; 
