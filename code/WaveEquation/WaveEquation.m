@@ -1,9 +1,17 @@
 % This code demonstrates wave equation on domain x[0:L]
 % Generates .gif file showing change in the y displacement u for each point
 % on x 
-%Written by Hojun Lee Jun.04.2021
-%PDE Technology Fellow project. 
-% 
+% Written by Hojun Lee Jun.04.2021
+% PDE Technology Fellow project. 
+%
+
+%{
+More description on the code
+ - a string on [0,L] with boundary condition?????, initial condition???
+ - traveling wave and standing wave? 
+%}
+
+add_my_paths; 
 L   = 20; 
 N   = 301;  dx = L/(N-1);
 x   = 0:dx:L;
