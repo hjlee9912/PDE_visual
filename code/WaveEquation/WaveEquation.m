@@ -7,7 +7,8 @@
 
 %{
 More description on the code
- - a string on [0,L] with boundary condition?????, initial condition???
+ - a string on [0,L] with boundary condition u(0,t)=u(L,t)=0, 
+    initial condition u(x,0)=f du/dt(x,0)=g
  - traveling wave and standing wave? 
 %}
 
