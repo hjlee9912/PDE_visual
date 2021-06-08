@@ -1,0 +1,38 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Oblique;\f2\fnil\fcharset134 PingFangSC-Regular;
+}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red11\green76\blue180;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c100000\c100000;\cssrgb\c1961\c38824\c75686;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf0 \expnd0\expndtw0\kerning0
+David Day: \
+The video is good, but could be improved a little by explaining how Gibb's phenomenon was derived from an intuitive and/or formulaic understanding. I.e. Why is it always 0.895? How was the number calculated?\
+Then also explaining (in a more fundamental level) why there is always an overshoot in practical applications, such that convergence only exists mathematically.\
+E.g. "Adding each successive term in the Fourier series increases the number and density of the nodes, so that at infinite terms, all that remains are the nodes -- yielding the black line in the graph."\
+The connection between the\'a0\cb2 error calculations and types of convergence\cb1 \'a0could be more clear: e.g."Because infinite terms and\'a0\cb2 convergence can only exist mathematically, any attempt at calculating Fourier Series with finite terms (such as with a compute program) would at best approximate, but not equal, the desired function. 
+\f1\i Accordingly
+\f0\i0 ,\'a0we need ways to calculate the error in such approximations - via the following three types of convergence."\cb1 \
+I'm not sure if there's a time limit on the video, but overall, elaborating on the details would be much preferred. (If there's a time limit, perhaps spend less time on introducing the idea of convergence, and more on the Gibb's phenomena and the math behind it.)\
+Again, thank you for a great semester!\
+I am not too occupied over the summer, so I welcome any further help you may desire!\
+\
+\
+Aaron Zoll: \
+I watched the video and I think it did make things clear, however I also think there are some possible ways to improve. One way is to explain more where stuff comes from. For example, the formula was just given for the Gibb's Phenomenon, but why is that the case? The book explained it in only a few lines if I remember correctly, so I think it is worth including it. Even less rigorous would be just explaining why Fourier series using sin and cos, not e^(kx) or any other sequence of functions. This could be as simple as just saying these are bounded and work nicely, or you could include the natural and physical reasoning using the heat equation.\
+\
+I also think that around the 3:13 mark, when the equation is shown, you should also show the "left hand side" version where we have $$f_n(\\pi-\\frac\{L\}\{2n\}) \\approx f(\\pi^-)+0.0895[f(\\pi^-)-f(\\pi^+)] since the left hand overshoot is what is shown in the video.\
+\
+I think the video overall explains what it is, but since there isn't much basis as for where this comes from, or much to connect it to, I think the effectiveness of the material in sticking with whoever watches it may be lost however, I haven't seen any of the other videos, so these may not be necessary.\
+\
+\
+Ducheng Peng:\
+Thank you for sharing with the great explanation. It helps me understand better on Gibbs phenomenon. I think it would be better if you can add some brief explanations about piecewise smooth for people who haven't studied this topic before at 1:30.\'a0\
+\
+For other topics, I suggest that Fourier transform is a good topic to visualize. I watched a Chinese video by Yongle Li(
+\f2 \'c0\'ee\'d3\'c0\'c0\'d6
+\f0 )\'a0{\field{\*\fldinst{HYPERLINK "https://nam02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D0LuyxzqI3Hk&data=04%7C01%7Cflu15%40jhu.edu%7C3a70c2fb714c472940fe08d929e4ab47%7C9fa4f438b1e6473b803f86f8aedf0dec%7C0%7C0%7C637586884357975313%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=PoYYgZknHmA1zCrqv%2BEtDeKaV37acJLmEFnoVCf%2FE0Q%3D&reserved=0"}}{\fldrslt \cf3 \ul \ulc3 https://www.youtube.com/watch?v=0LuyxzqI3Hk}}. I think there are several graphs showed at the end of the video which are interesting. He introduced how the apps beautify your selfie by Fourier transform. I think there is an English subtitle in this video.\
+\
+}
