@@ -14,6 +14,7 @@
 % - sinewave, triangular wave, and rectangular wave
 %% Set basic parameters
 
+add_my_paths;
 L   = 10; %length of the string
 N   = 301;  dx = L/(N-1);
 x   = 0:dx:L;%domain
