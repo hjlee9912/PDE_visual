@@ -1,8 +1,7 @@
 % This code demonstrates wave equation on domain x[0:L]
-% Generates .gif file showing change in the y displacement u for each point
-% on x 
-%Written by Hojun Lee Jun.04.2021
-%PDE Technology Fellow project. 
+% Generates .gif file showing change in the y displacement u for each point on x 
+% Written by Hojun Lee Jun.04.2021
+% PDE Technology Fellow project. 
 % 
 %{standing wave:
 % - a string on [0,L] with boundary condition u(0,t)=u(L,t)=0, 
@@ -31,7 +30,6 @@ h  = @(x) sawtooth(x);
 p  = @(x) square(x);
 
 %% Evaluate standing wave by solving Wave Equation (PDE)
-
 x_mesh = pi*x/L;
 
 [~, ~, An_all] = computFS_coef(f,L,x,K,'sine'); %compute coefficients
@@ -56,8 +54,8 @@ for nn = 1:K
     filename = sprintf('wave n=%i.gif',nn);
     im_to_gif(filename,im,index-1); %make .gif file for each n value
 end
-%% superpose two traveling waves. (show cosine components of f)
 
+%% Two traveling waves -- the cosine components of f
 % for nn = 3:4
 %     index=1;
 %     fig=figure;
@@ -84,14 +82,14 @@ end
 %     filename = sprintf('travelingwave n=%i.gif',nn);
 %     im_to_gif(filename,im,index-1);
 % end
-%% superpose two travleing sine waves. 
 
+%% superpose two travleing sine waves. 
     index=1;
     fig=figure;
     for t = 1:0.2:tt
         u_1 = 0.5*f((x-c*t));
         u_2 = 0.5*f((x+c*t));
-        u_tS = u_1-u_2; %Superposition of the two waves
+        u_tS = u_1+u_2; %Superposition of the two waves
         plot(x,u_1,'r-','LineWidth',2); 
         hold on
         plot(x,u_2,'b-','LineWidth',2,'MarkerIndices',[100],'MarkerSize',30);
@@ -109,14 +107,15 @@ end
     end
     filename = sprintf('travelingwave_sine.gif');
     im_to_gif(filename,im,index-1);
-    %% superpose two traveling triangular waves. 
+
     
+%% Two traveling triangular waves.     
     index=1;
     fig=figure;    
     for t = 1:0.2:tt
         u_1 = 0.5*h((x-c*t));
         u_2 = 0.5*h((x+c*t));
-        u_tS = u_1-u_2; %Superposition of the two waves
+        u_tS = u_1+u_2; %Superposition of the two waves
         plot(x,u_1,'r-','LineWidth',2); 
         hold on
         plot(x,u_2,'b-','LineWidth',2);
@@ -134,14 +133,14 @@ end
     end
     filename = sprintf('travelingwave_sawtooth.gif');
     im_to_gif(filename,im,index-1);
-    %% superpose two traveling square waves. 
     
+ %% Two traveling square waves. 
     index=1;
     fig=figure;    
     for t = 1:0.2:tt
         u_1 = 0.5*p((x-c*t));
         u_2 = 0.5*p((x+c*t));
-        u_tS = u_1-u_2; %Superposition of the two waves
+        u_tS = u_1+u_2; %Superposition of the two waves
         plot(x,u_1,'r-','LineWidth',2); 
         hold on
         plot(x,u_2,'b-','LineWidth',2);
