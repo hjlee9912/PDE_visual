@@ -159,6 +159,56 @@ end
     filename = sprintf('travelingwave_square.gif');
     im_to_gif(filename,im,index-1);
 
+%% initially unperturbed vibrating spring f(x)=0. Ex 4.4.8
+    
+    %still in progress (has error to be fixed)
+    index=1;
+    fig=figure;    
+    for t=1:tt
+        up=x+c*t; %upper bound for integration interval
+        down=x-c*t; %lower bound for integration interval
+        xxx=zeros(N,N);
+        dxxx=2*c*t/(N-1);
+        xxx(:,1)=down;
+        xxx(:,N)=up;
+        %create a matrix where the first column is lower bound, the last
+        %column is upper bound, and each column has the difference dxxx
+        %with the neighboring columns. 
+        for p=2:N-1
+            xxx(:,p)=xxx(:,p-1)+dxxx;
+        end 
+        %evaluate Bn 
+        fval    = g(xxx); 
+        x_mesh  = xxx*(pi/L); 
+        Bn_all = zeros(N,K);
+        
+        for n = 1:K
+            eigenfn = sin(n*x_mesh);    % eigen-function
+            Bn_all(n,:)  = dot(fval,eigenfn,2)*dxxx*2/L;   
+        end
+        
+        G = zeros(size(xxx)); 
+        %Evaluate G
+        for n = 1:K
+            G  = G + Bn_all(n,:)*L/(n*pi*c)*sin(n*pi*xxx/L);
+        end
+        
+        u=1/(2*c)*sum(G,2)*dxxx;
+        plot(x,u,'r-','LineWidth',2); 
+        xlabel('x'); ylabel('u'); 
+        ylim([-1 1])
+        drawnow;
+        frame = getframe(fig);
+        im{index} = frame2im(frame);
+        index=index+1;
+        clf;
+    end
+    filename = sprintf('unperturbed wave.gif');
+    im_to_gif(filename,im,index-1);
+
+
+
+
 
 
 
