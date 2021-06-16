@@ -13,15 +13,20 @@ fig=figure;
 
 for time=1:0.2:tt 
     v=0;
-    for n=2:K %error: n=1 does not work in this case. Why? (6/14/2021)
-        eigenf=sin(n*pi*x/L); %eigenfunction
+    for nn=1:K 
+        eigenf=sin(nn*pi*x/L); %eigenfunction
         w = sin(time) + (x/pi)*-1*sin(time);
         %solve 2nd order diffeq
         syms a(t)
         Da = diff(a,t);
-        ode = diff(a,t,2)+n^2*diff(a,t) == 2*(1/n-sin(pi*n)/(pi*n^2))*sin(t)/pi;
-        cond1 = a(0) == (-2*sin(pi*n))/(pi*(n^2-1));
-        cond2 = Da(0) == 2*((n^2-1)*sin(pi*n)+(pi*n^3*cos(pi*n)+pi*n))/(pi^2*n^2*(n^2-1));
+        ode = diff(a,t,2)+nn^2*diff(a,t) == 2*(1/nn-sin(pi*nn)/(pi*nn^2))*sin(t)/pi;
+        if nn==1
+            cond1 = a(0) == 1;
+            cond2 = Da(0) == -2/pi;
+        else
+            cond1 = a(0) == (-2*sin(pi*nn))/(pi*(nn^2-1));
+            cond2 = Da(0) == 2*((nn^2-1)*sin(pi*nn)+(pi*nn^3*cos(pi*nn)+pi*nn))/(pi^2*nn^2*(nn^2-1));
+        end
         conds = [cond1 cond2];
         aSol(t) = dsolve(ode,conds);
         aSolution=matlabFunction(aSol);
