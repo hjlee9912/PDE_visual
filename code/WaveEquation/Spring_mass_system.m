@@ -1,4 +1,8 @@
 %This code demostrates a wave equation with spring-mass system
+
+%% suggestion: avoid symbolic computation to be fast, make K larger.
+
+
 %with length L
 %Solution to the PDE is uploaded in OneDrive. 
 add_my_paths;
@@ -11,6 +15,7 @@ x   = 0:dx:L;%domain
 index=1;
 fig=figure;
 
+%% representing solution using symbolic computation: slow 
 for time=1:0.2:tt 
     v=0;
     for nn=1:K 
