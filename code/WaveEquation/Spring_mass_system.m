@@ -27,10 +27,10 @@ for time=1:0.2:tt
         ode = diff(a,t,2)+nn^2*diff(a,t) == 2*(1/nn-sin(pi*nn)/(pi*nn^2))*sin(t)/pi;
         if nn==1
             cond1 = a(0) == 1;
-            cond2 = Da(0) == -2/pi;
+            cond2 = Da(0) == 0;
         else
             cond1 = a(0) == (-2*sin(pi*nn))/(pi*(nn^2-1));
-            cond2 = Da(0) == 2*((nn^2-1)*sin(pi*nn)+(pi*nn^3*cos(pi*nn)+pi*nn))/(pi^2*nn^2*(nn^2-1));
+            cond2 = Da(0) == 2*nn*(cos(pi*nn)+1)/(pi*(nn^2-1));;
         end
         conds = [cond1 cond2];
         aSol(t) = dsolve(ode,conds);
