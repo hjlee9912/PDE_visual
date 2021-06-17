@@ -28,9 +28,9 @@ for nn=1:K
     w = sin(T) + (X/pi)* -1 * sin(T);
     %solve 2nd order diffeq
     if nn==1
-        ic=[1,-2/pi]; %IC when n=1
+        ic=[1,0]; %IC when n=1
     else
-        ic=[(-2*sin(pi*nn))/(pi*(nn^2-1)),2*((nn^2-1)*sin(pi*nn)+(pi*nn^3*cos(pi*nn)+pi*nn))/(pi^2*nn^2*(nn^2-1))];
+        ic=[(-2*sin(pi*nn))/(pi*(nn^2-1)),2*nn*(cos(pi*nn)+1)/(pi*(nn^2-1))];
     end
     [t,a] = ode45(@(t,a) waveCoeff(t,a,nn), tspan, ic); %solve for a, the coefficient for Fourier Sine Series
     v=v+a(:,1)'.*eigenf;
