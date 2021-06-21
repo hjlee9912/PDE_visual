@@ -70,8 +70,9 @@ u  = v+w;         %final solution
 index = 1;
 fig   = figure;
 for i=1:NN
-    plot(x,u(i,:),'b-','LineWidth',2); 
+    plot(x,u(i,:),'y-','LineWidth',2); 
     xlabel('x'); ylabel('u');   axis([0,pi,-1.5,1.5])
+    darkBackground(fig,[0 0 0],[1 1 1]);
     set_positionFontsAll;
     drawnow;
     frame     = getframe(fig);
