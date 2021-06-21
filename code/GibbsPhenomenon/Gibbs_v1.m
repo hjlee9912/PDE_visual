@@ -61,29 +61,64 @@ figure;
 % plot(FS_l2,'linewidth',2);  hold on; 
 plot(errL2,'linewidth',2); 
 
-
-%% animation
+%% animation gif file
 index=1;
 fig=figure;
+
 for n=20*(1:16)
     [SinSeries, ~] = FSsine(n,f,L,dx,x);
     xrange =  [x(200) x(800)]; 
     plotFS_Gibbs(x,f,SinSeries,n,xrange); set_positionFontsAll;
+    darkBackground(fig,[0 0 0],[1 1 1]);
     drawnow; 
     frame = getframe(fig);
-    im{index} = frame2im(frame); %Create cell array of images. (image for each n)
+    im{index} = frame2im(frame);
     index=index+1;
     clf;
 end
 
-figure; %Show the image cell array
+figure;
 for idx=1:16
     subplot(4,4,idx)
     imshow(im{idx});
 end
 
 filename = 'ConvergenceFS.gif';
-im_to_gif(filename,im,idx); %Create gif file
+im_to_gif(filename,im,idx);
+%% pointwise convergence
+
+nn=(1:1:320);
+y=zeros(1,320);
+y1=y;
+ff=ones(1,320);
+for n=1:320
+    [SinSeries, ~] = FSsine(n,f,L,dx,x);
+    y(n)=SinSeries(500);
+    y1(n)=SinSeries(bound2-10);
+end
+fig1 = figure;
+plot(nn,ff,'w','LineWidth',2);          hold on; 
+plot(nn,y,'c','Linewidth',2)
+xlim([1,320]);
+ylim([0.8,1.3]);
+legend('\color{white}Function f','\color{white}Fourier Series','Color',[0 0 0],'location','best','EdgeColor',[1 1 1])
+darkBackground(fig1,[0 0 0],[1 1 1]);
+title('\color{white} x at the continuous section');
+xlabel('n')
+width = 500; height = 200; 
+set(gcf, 'Position',  [100, 1000, width, height]);
+
+fig2 = figure;
+plot(nn,ff,'w','LineWidth',2);          hold on; 
+plot(nn,y1,'c','Linewidth',2)
+xlim([1,320]);
+ylim([-0.3,1.3]);
+legend('\color{white} Function f','\color{white} Fourier Series','Color',[0 0 0],'location','best','EdgeColor',[1 1 1])
+darkBackground(fig2,[0 0 0],[1 1 1]);
+title('\color{white} x near the jump');
+xlabel('n')
+width = 500; height = 200;  
+set(gcf, 'Position',  [100, 1000, width, height]);
 
 
 
