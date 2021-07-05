@@ -6,7 +6,7 @@
 %needs functions p,q,and r
 %By Hojun Lee and Fei Lu 
 %Jul/4/2021
-
+add_my_path;
 b = pi;
 a = 0;
 N = 99;  %number of x points excluding both ends
