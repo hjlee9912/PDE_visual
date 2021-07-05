@@ -43,4 +43,5 @@ D = A+B+C; %linear operation
 [v,e] = eig(D,RR);
 v = [zeros(1,N);v;zeros(1,N)];
 e = diag(e);
+[e,ind]  = sort(e,'ascend'); v = v(:,ind); % (ascending)
 end

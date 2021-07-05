@@ -28,21 +28,19 @@ x_in = x(2:end-1); % x values excluding both ends
 Q        = fn_q(x_in); % evaluate Q(x)
 R        = fn_r(x_in); % evaluate R(x), the weight function
 [v,e]    = SLEP(N,x_in,P,dPdx,Q,R); % solve SLEP, vector and eigenvaluse (ascending)
-% [e,ind]  = sort(e); v = v(:,ind); (order? ascending/descending? TBD)
-
 
 fig=figure;
 plot(x',v(:,1:3),'linewidth',2)
-darkBackground(fig,[0 0 0],[1 1 1]); set_positionFontsAll;
+% darkBackground(fig,[0 0 0],[1 1 1]); set_positionFontsAll;
 xlabel('\color{white}x')
 legend('\color{white}\phi_1', '\color{white}\phi_2','\color{white}\phi_3')
 
 
 %% Spectral analysis: 
-% 1. plot the eigenvalues (order? ascending/descending?
-% 2. show eigenfunctions are orthogonal
+% 1. plot the eigenvalues 
+% 2. show eigenfunctions are orthogonal 
 figure;
-subplot(121); plot(e); hold on; plot((1:length(e)).^2,'x'); %figure; semilogy(e);
+subplot(121); plot(e); hold on; % plot((1:length(e)).^2,'x'); 
 subplot(122); plot(R); hold on; plot(P); legend('r','p'); xlabel('x'); 
 
 
