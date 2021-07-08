@@ -49,4 +49,13 @@ figure;
 subplot(121); plot(e); hold on; % plot((1:length(e)).^2,'x'); 
 subplot(122); plot(R); hold on; plot(P); legend('r','p'); xlabel('x'); 
 
-orthogonal = sum(v(:,7).*v(:,9).*R')*dx;
+orthogonal = zeros(length(v(1,:)),length(v(1,:)));
+for i=1:length(v(1,:))
+    for j=i:length(v(1,:))
+       orthogonal(i,j) = sum(v(:,i).*v(:,j).*R')*dx;
+       orthogonal(j,i) = orthogonal(i,j); 
+    end
+end
+% plot use imagesc 
+
+
