@@ -16,6 +16,13 @@ Regular SLEP
 %}  
 % By Hojun Lee and Fei Lu 
 % Jul/4/2021
+
+%% TODO: 
+%{
+1. make the plots in Spectral analysis look better
+2. orthogonality is not correct 
+%}
+
 add_my_path;
 
 a  = 0;  b = pi;   % domain [a,b]
@@ -35,11 +42,11 @@ xlabel('\color{white}x')
 legend('\color{white}\phi_1', '\color{white}\phi_2','\color{white}\phi_3')
 
 
-%% Spectral analysis: 
+%% Spectral analysis:  
 % 1. plot the eigenvalues 
 % 2. show eigenfunctions are orthogonal 
 figure;
 subplot(121); plot(e); hold on; % plot((1:length(e)).^2,'x'); 
 subplot(122); plot(R); hold on; plot(P); legend('r','p'); xlabel('x'); 
 
-orthogonal = sum(v(:,7).*v(:,9).*R)*dx;
+orthogonal = sum(v(:,7).*v(:,9).*R')*dx;

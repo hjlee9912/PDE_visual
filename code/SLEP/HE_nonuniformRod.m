@@ -1,7 +1,13 @@
-%heat flow in nonuniform rod without sources at x=[a,b]
-% c*rho*du/dt = d/dx(K0*du/dx))
-%assume Dirichelet boundary condition u(a,t) = 0 = du/dx(b,t)
-%with IC u(x,0) = f(x);
+% heat flow in nonuniform rod without sources at x=[a,b]
+%      c*rho*du/dt = d/dx(K0*du/dx))
+% assume Dirichelet boundary condition u(a,t) = 0 = du/dx(b,t)
+% with IC u(x,0) = f(x);
+%% TODO
+%{
+1. correct the code. The solution is non-physical; something must be wrong. 
+2. Write a note --- it is better to type it (in Latex or in word). 
+%}
+
 add_my_path;
 a  = 0;  b = pi;   % domain [a,b]
 N  = 99;           % number of x points excluding both ends
@@ -9,9 +15,9 @@ dx = (b-a)/(N+1);  % "infitasimal" x
 x  = a:dx:b;       % domain
 f  = @(x) sin(x);
 %set thermal coefficient of the rod
-c = @(x) 2*x+1; %specific heat
-rho = @(x) 1.5*x; %mass density
-K0 = @(x) 0.1*x+3; %thermal conductivity
+c = @(x) 0*x+1;    % specific heat
+rho = @(x) 1.5*x;  % mass density     % % why it does not work for 1+1.5*cos(x)? 
+K0 = @(x) 0.1*x+3; % thermal conductivity
 dK0dx = @(x) x*0+0.1;
 %% Evaluate the Spatial part
 %evaluate SLEP
