@@ -4,8 +4,8 @@
 %{
 Boundary conditions: 
    - Dirichlet BC with BC y(a) = 0, y(b) = 0
-   - Neumann: 
-   - Robin: mixed
+   - Neumann BC with BC y(a) = 0, y'(b) = 0
+   - Robin BC with 
 Regular SLEP
   - p,q,r are continuous on [a,b]; p>0, r>0 --- including boundary points 
      (use p(x) = sin(x), r(x) = abs(sin(x))+1 to show why endpoints are important >> theory refer to book XXX)
@@ -22,16 +22,15 @@ a  = 0;  b = pi;   % domain [a,b]
 N  = 99;           % number of x points excluding both ends
 dx = (b-a)/(N+1);  % "infitasimal" x
 x  = a:dx:b;       % domain
-x_in = x(2:end-1); % x values excluding both ends
 
-[P,dPdx] = fn_p(x_in); % evaluate p(x) and p'(x)
-Q        = fn_q(x_in); % evaluate Q(x)
-R        = fn_r(x_in); % evaluate R(x), the weight function
-[v,e]    = SLEP(N,x_in,P,dPdx,Q,R); % solve SLEP, vector and eigenvaluse (ascending)
-
+[P,dPdx] = fn_p(x); % evaluate p(x) and p'(x)
+Q        = fn_q(x); % evaluate Q(x)
+R        = fn_r(x); % evaluate R(x), the weight function
+[v,e]    = SLEP(N,x,P,dPdx,Q,R,'Dirichlet'); % solve SLEP, vector and eigenvaluse (ascending)
+%BC types are 'Dirichlet', 'Neumann', and 'Robin'
 fig=figure;
 plot(x',v(:,1:3),'linewidth',2)
-% darkBackground(fig,[0 0 0],[1 1 1]); set_positionFontsAll;
+darkBackground(fig,[0 0 0],[1 1 1]); set_positionFontsAll;
 xlabel('\color{white}x')
 legend('\color{white}\phi_1', '\color{white}\phi_2','\color{white}\phi_3')
 
@@ -43,9 +42,4 @@ figure;
 subplot(121); plot(e); hold on; % plot((1:length(e)).^2,'x'); 
 subplot(122); plot(R); hold on; plot(P); legend('r','p'); xlabel('x'); 
 
-
-
-
-
-
-
+orthogonal = sum(v(:,7).*v(:,9).*R)*dx;
