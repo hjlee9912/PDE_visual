@@ -31,7 +31,7 @@ Q = x*0;
 c_x = c(x);
 rho_x = rho(x);
 R        = c_x .* rho_x; % evaluate R(x), the weight function
-[v,e]    = SLEP(N,x,P,dPdx,Q,R,'Dirichlet'); % solve SLEP, vector and eigenvaluse (ascending)
+[v,e]    = SLEP(N,x,P,dPdx,Q,R,'mixed'); % solve SLEP, vector and eigenvaluse (ascending)
 
 fig=figure;
 plot(x',v(:,1:3),'linewidth',2)
