@@ -1,6 +1,6 @@
 % heat flow in nonuniform rod without sources at x=[a,b]
 %          c*rho*du/dt = d/dx(K0*du/dx))
-% BC: Dirichelet boundary condition u(a,t) = 0 = du/dx(b,t)
+% BC: mixed boundary condition u(a,t) = 0 = du/dx(b,t)
 % IC: u(x,0) = f(x);
 
 %% TODO
