@@ -4,8 +4,8 @@
 %{
 Boundary conditions: 
    - Dirichlet BC with BC y(a) = 0, y(b) = 0
-   - Neumann BC with BC y(a) = 0, y'(b) = 0
-   - Robin BC with 
+   - Neumann BC with BC y'(a) = 0, y'(b) = 0
+   - mixed BC with BC y(a) = 0, y'(b) = 0
 Regular SLEP
   - p,q,r are continuous on [a,b]; p>0, r>0 --- including boundary points 
      (use p(x) = sin(x), r(x) = abs(sin(x))+1 to show why endpoints are important >> theory refer to book XXX)
@@ -16,13 +16,6 @@ Regular SLEP
 %}  
 % By Hojun Lee and Fei Lu 
 % Jul/4/2021
-
-%% TODO: 
-%{
-1. make the plots in Spectral analysis look better
-2. orthogonality is not correct 
-%}
-
 add_my_path;
 
 a  = 0;  b = pi;   % domain [a,b]
@@ -33,21 +26,27 @@ x  = a:dx:b;       % domain
 [P,dPdx] = fn_p(x); % evaluate p(x) and p'(x)
 Q        = fn_q(x); % evaluate Q(x)
 R        = fn_r(x); % evaluate R(x), the weight function
-[v,e]    = SLEP(N,x,P,dPdx,Q,R,'Dirichlet'); % solve SLEP, vector and eigenvaluse (ascending)
-%BC types are 'Dirichlet', 'Neumann', and 'Robin'
+[v,e]    = SLEP(N,x,P,dPdx,Q,R,'mixed'); % solve SLEP, vector and eigenvaluse (ascending)
+%BC types are 'Dirichlet', 'Neumann', and 'mixed'
 fig=figure;
 plot(x',v(:,1:3),'linewidth',2)
 darkBackground(fig,[0 0 0],[1 1 1]); set_positionFontsAll;
 xlabel('\color{white}x')
-legend('\color{white}\phi_1', '\color{white}\phi_2','\color{white}\phi_3')
+legend('\color{white}\phi_1', '\color{white}\phi_2','\color{white}\phi_3','location','best')
 
 
-%% Spectral analysis:  
+%% Spectral analysis: 
 % 1. plot the eigenvalues 
 % 2. show eigenfunctions are orthogonal 
-figure;
-subplot(121); plot(e); hold on; % plot((1:length(e)).^2,'x'); 
-subplot(122); plot(R); hold on; plot(P); legend('r','p'); xlabel('x'); 
+fig2=figure;
+subplot(121); plot(e,'y','LineWidth',2); 
+title('\lambda'); xlabel('N'); hold on; % plot((1:length(e)).^2,'x'); 
+subplot(122); 
+plot(x,R,'b','LineWidth',2); hold on; 
+plot(x,P,'r','LineWidth',2); 
+legend('\color{white}r','\color{white}p','Color',[0 0 0],'EdgeColor',[1 1 1]); 
+xlabel('x'); 
+darkBackground(fig2,[0 0 0],[1 1 1]); set_positionFontsAll;
 
 orthogonal = zeros(length(v(1,:)),length(v(1,:)));
 for i=1:length(v(1,:))
@@ -56,6 +55,8 @@ for i=1:length(v(1,:))
        orthogonal(j,i) = orthogonal(i,j); 
     end
 end
-% plot use imagesc 
-
-
+figure;
+image(orthogonal,'CDataMapping','scaled')
+c=colorbar;
+ylabel(c,'orthogonality')
+title('Orthogonality of regular SLEP eigenfunctions')
