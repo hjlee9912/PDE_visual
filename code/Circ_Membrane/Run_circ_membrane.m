@@ -1,12 +1,20 @@
+%% Section 7.7: Vibrating circular membrane and Bessel functions 
 %{
 The vertical displacement u(r, theta, t) of the circular membrane satisfies:
     \partial^2 u/\partial t^2 = c^2 del^2 u.
 We assume BC:
     u(a, theta, t) = 0; (fixed boundary)
 and IC:
-    u(r,theta, 0) = alpha(r, theta); (given initial displacement)
+    u(r,theta, 0) = alpha(r, theta);            ( initial displacement)
     \partial u/\partial t = beta(r, theta) = 0. (zero initial velocity)
+
+Method: analytical series solution with Bessel eigenfunctions 
+ - 1. Eigenvalues and eigenfunctions
+ - 2. Compute coefficients A_lambda from given initial displacemet alpda(r, theta)
+ - 3. Solution with a few modes
 %}
+
+add_my_paths; 
 
 %% parameter settings
 a = 1;
@@ -14,7 +22,7 @@ c = 1;
 M = 6;
 N = 6;
 
-%% Eigenvalues and eigenfunctions
+%% 1. Eigenvalues and eigenfunctions
 
 % first N zeros of Jm, m = 0, ..., M
 z = besselzero((0:M)', N, 1); % z(m, n) is the n^th zero of  J_{m-1}
@@ -51,7 +59,7 @@ imagesc(1:N, 1:N,squeeze(orth_mat(i,:,:))); colorbar;
 title(['m = ', num2str(i-1)]);
 xlabel('n'); ylabel('n"');
 end
-set_positionFontsAll;
+% set_positionFontsAll; 
 print(['Orth_mat_Jm.pdf'],'-dpdf', '-fillpage');
 
 
@@ -97,7 +105,7 @@ if ~exist(avi_Filename,'file')
 end
 
 
-%% Compute coefficients A_lambda for phi)lambda from given initial displacemet alpda(r, theta)
+%% 3 Compute coefficients A_lambda for phi)lambda from given initial displacemet alpda(r, theta)
 % initial position of eigenfunctions
 phi_lambda = cell(M+1, N); % phi_lambda(m,n) = J_{m-1}(sqrt(lambda(m-1,n)r))*[cos(m*theta + sin(m*theta))]
 for m = 0:M
@@ -113,11 +121,11 @@ alpha = @(r, theta) weighted_sum(r, theta, 0, eig_functions, weights);
 % change avi_Filename manully for differnt weights
 avi_Filename = sprintf('Movie_soln_u_c_%i_a_%i_alpha_14_1_61_2.avi', c, a);
 
-%% Movie solution u
+%% 3 Solution u: movie
 dt = 0.1; L = 6; steps = numel(0:dt:L);
 [r_mesh, theta_mesh, time_mesh] = meshgrid(0:0.05:a, linspace(-pi,pi,100), 0:dt:L);
 x_mesh = r_mesh(:,:,1).*cos(theta_mesh(:,:,1)); y_mesh = r_mesh(:,:,1).*sin(theta_mesh(:,:,1));
-vibration = u(r_mesh, theta_mesh, time_mesh);
+
 if ~exist(avi_Filename,'file')   
     % A_lambda : u(r, theta, 0) = alpha(r, theta) = \sum A_lambda * phi_lambda
     A_lambda = zeros(M+1, N);
@@ -134,6 +142,7 @@ if ~exist(avi_Filename,'file')
     
     % Solution u = sum A_lamda(m,n) *[eig_functions(m,n,1) + eig_functions(m,n,1)]
     u = @(r, theta,t) weighted_sum(r, theta, t, eig_functions, A_lambda);
+    
 %{
 figure;
 subplot(121);
@@ -148,7 +157,7 @@ xlabel('x');  ylabel('y');
     % Compare weights in alpha and computed A_lambda
     %figure;
     %imagesc(0:M, 1:N, weights - A_lambda); colorbar; title('true weights - A_{\lambda}')
-
+vibration = u(r_mesh, theta_mesh, time_mesh);
     v           = VideoWriter(avi_Filename);   % open file for AVI
     v.FrameRate = 10; open(v);
     for l = 0:steps-1
