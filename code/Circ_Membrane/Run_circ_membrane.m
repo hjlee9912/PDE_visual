@@ -27,13 +27,13 @@ N = 6;
 % first N zeros of Jm, m = 0, ..., M
 z = besselzero((0:M)', N, 1); % z(m, n) is the n^th zero of  J_{m-1}
 
-% eigenvalues lambda_mn
+% eigenvalues lambda_mn [(7.7.40), HaberMan]
 sqrt_lambda = z/a; % sqrt_lambda(m,n) is the n^th eigenvalue of Bessel of order (m-1)
 
-% eig_functions(m,n,i) = u_{m-1, n, i}: n-1 nodal circles, 2m nodal radii
+% eig_functions(m,n,i) = u_{m-1, n, i}: n-1 nodal circles, 2m nodal radii. [(7.7.45), HaberMan]
 % u_{m,n,1}(r, theta, t) = J_m(sqrt(lambda_{m,n})r)*cos(m*theta)*cos(csqrt(lambda_{m,n})t)
 % u_{m,n,1}(r, theta, t) = J_m(sqrt(lambda_{m,n})r)*sin(m*theta)*cos(csqrt(lambda_{m,n})t)
-eig_functions = cell(M+1, N, 2);
+eig_functions = cell(M+1, N, 2); 
 for m = 0:M
     for n = 1:N
         eig_functions{m+1, n, 1} = @(r, theta, t) besselj(m, r*sqrt_lambda(m+1,n)).*cos(m*theta).*cos(c*sqrt_lambda(m+1,n)*t);
@@ -127,7 +127,7 @@ dt = 0.1; L = 6; steps = numel(0:dt:L);
 x_mesh = r_mesh(:,:,1).*cos(theta_mesh(:,:,1)); y_mesh = r_mesh(:,:,1).*sin(theta_mesh(:,:,1));
 
 if ~exist(avi_Filename,'file')   
-    % A_lambda : u(r, theta, 0) = alpha(r, theta) = \sum A_lambda * phi_lambda
+    % A_lambda : u(r, theta, 0) = alpha(r, theta) = \sum A_lambda * phi_lambda. [(7.7.48/49), HaberMan]
     A_lambda = zeros(M+1, N);
     for m = 0:M
         m
@@ -157,7 +157,7 @@ xlabel('x');  ylabel('y');
     % Compare weights in alpha and computed A_lambda
     %figure;
     %imagesc(0:M, 1:N, weights - A_lambda); colorbar; title('true weights - A_{\lambda}')
-vibration = u(r_mesh, theta_mesh, time_mesh);
+    vibration = u(r_mesh, theta_mesh, time_mesh);
     v           = VideoWriter(avi_Filename);   % open file for AVI
     v.FrameRate = 10; open(v);
     for l = 0:steps-1
@@ -173,7 +173,6 @@ vibration = u(r_mesh, theta_mesh, time_mesh);
     end
     close(v);
 end
-
 
 
 
