@@ -1,9 +1,7 @@
-%heat flow in nonuniform rod without sources at x=[a,b]
+%vibration on a nonuniform string at x=[a,b]
 % rho*du"/d"t = T0*du"/d"x
 %assume Dirichlet boundary condition u(a,t) = 0 = u(b,t)
 %with IC u(x,0) = f(x); and du/dt(x,0) = g(x);
-
-%problem to fix: showing non-physical graph
 
 add_my_path;
 a  = 0;  b = pi;   % domain [a,b]
@@ -52,14 +50,17 @@ end
 index=1;
 fig=figure;
 K = 40; %number of iteration
-tt = 10; %time
-u = 0; %displacement
-for t = 0:0.5:tt
+tt = 50; %time
+for t = 0:0.3:tt
+    u = 0; %displacement
     for n = 1:K
-        u = u+an(n)*sin(e(n)^(0.5))*t*v(:,n)+bn(n)*cos(e(n)^(0.5))*t*v(:,n);
+        u = u+an(n)*sin(e(n)^(0.5)*t)*v(:,n)+bn(n)*cos(e(n)^(0.5)*t)*v(:,n);
     end
-    plot(x,u,'linewidth',2)
-    ylim([-50 50])
+    plot(x,u,'y','linewidth',2)
+    title('Vibrations of a Nonuniform String')
+    darkBackground(fig,[0 0 0],[1 1 1]); set_positionFontsAll;
+    legend('\color{white}u(displacement)','Color',[0 0 0],'EdgeColor',[1 1 1]); 
+    ylim([-20 20])
     xlabel('x')
     ylabel('u')
     drawnow; 
