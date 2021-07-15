@@ -3,23 +3,18 @@
 % BC: mixed boundary condition u(a,t) = 0 = du/dx(b,t)
 % IC: u(x,0) = f(x);
 
-%% TODO
-%{
-1. correct the code. The solution is non-physical; something must be wrong. -----------------> still generating non-physical graph
-2. Write a note --- it is better to type it (in Latex or in word). 
-%}
 
 add_my_path;
 a  = 0;  b = pi;   % domain [a,b]
 N  = 99;           % number of x points excluding both ends
 dx = (b-a)/(N+1);  % "infitasimal" x
 x  = a:dx:b;       % domain
-f  = @(x) sin(x);
+f  = @(x) acos(cos(x))+1;
 %set thermal coefficient of the rod
-c   = @(x) 2*x+1;    % specific heat
-rho = @(x) 1.5*x;  % mass density     % % why it does not work for 1+1.5*cos(x)? --> rho should be positive
-K0  = @(x) 0.1*x+3; % thermal conductivity
-dK0dx = @(x) x*0+0.1;
+c   = @(x) x+6;    % specific heat
+rho = @(x) sin(x)+2;  % mass density     % % why it does not work for 1+1.5*cos(x)? --> rho should be positive
+K0  = @(x) 4*x+1; % thermal conductivity
+dK0dx = @(x) x*0+4;
 
 %% Evaluate the Spatial part
 %evaluate SLEP
@@ -52,23 +47,26 @@ c=colorbar;
 fx = f(x); %IC
 an = zeros(1,N); 
 for n = 1:N
-    an(n) = (sum(fx.*R.*v(:,n))*dx)/(sum(v(:,n).^2.*R)*dx);
+    an(n) = (sum(fx.*R.*v(:,n))*dx)/(dot(v(:,n)'.^2,R)*dx);
 end
 
 %evaluate u and create animation
 index=1;
 fig=figure;
-K = 10; %number of iteration
+K = 50; %number of iteration
 tt = 30; %time
-u = 0; %heat
-for t = 0:0.3:tt
+for t = 0:0.5:tt
+    u = 0; %heat
     for n = 1:K
         u = u+an(n)*v(:,n)*exp(-e(n)*t);
     end
     plot(x,u,'linewidth',2)
-    ylim([0 20])
+    ylim([0 5])
     xlabel('x')
     ylabel('u')
+    title('Heat Flow in a Nonuniform Rod without Sources')
+    darkBackground(fig,[0 0 0],[1 1 1]); set_positionFontsAll;
+    legend('\color{white}u(heat)','Color',[0 0 0],'EdgeColor',[1 1 1]); 
     drawnow; 
     frame = getframe(fig);
     im{index} = frame2im(frame);
