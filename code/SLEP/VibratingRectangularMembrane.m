@@ -4,7 +4,7 @@
 %BC  u(0,y,t)=u(L,y,t)=u(x,0,t)=u(x,H,t)=0
 %IC u(x,y,0)=alpha(x,y)   du/dt(x,y,0)=beta(x,y)
 
-%add_my_path
+add_my_path
 H  = 1;  L = 2;   % domain [a,b]
 N  = 99;           % number of x points excluding both ends
 dx = L/(N+1); dy = H/(N+1); % "infitasimal" x and y
