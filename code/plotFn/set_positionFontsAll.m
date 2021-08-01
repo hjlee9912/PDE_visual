@@ -1,6 +1,6 @@
 %% set position, size of figure; and set fonts
 %  function set_positionFontsAll(nrow,ncol)
-ftsz =15; mksz = 10; % if save to -dpdf
+ftsz = 18; mksz = 10; % if save to -dpdf
 % ftsz =12; mksz = 8; % if save to -depsc
 set(findall(gcf,'-property','FontSize'),'FontSize',ftsz);
 set(findall(gcf,'-property','MarkerSize'),'MarkerSize',mksz);
