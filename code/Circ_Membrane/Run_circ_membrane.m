@@ -65,12 +65,13 @@ print(['Orth_mat_Jm.pdf'],'-dpdf', '-fillpage');
 
 %% Movie of a few eig_functions
 m_seq = 0:2; n_seq = 1:3; i_seq = 1; %m = 0,...,M, n = 1,...,N, i = 1,2
-dt = 0.1; L = 20; steps = numel(0:dt:L);
+dt = 0.1; L = 10; steps = numel(0:dt:L);
 [r_mesh, theta_mesh, time_mesh] = meshgrid(linspace(0,a,20), linspace(-pi,pi,100), 0:dt:L);
 x_mesh = r_mesh(:,:,1).*cos(theta_mesh(:,:,1)); y_mesh = r_mesh(:,:,1).*sin(theta_mesh(:,:,1));
 vibration = cell(numel(n_seq), numel(m_seq), numel(i_seq));
 gif_Filename = [result_path, sprintf('GIF_eig_functions_c_%i_m_%i_%i_n_%i_%i_i_%i_%i_vibration.gif', c,m_seq(1), m_seq(end),n_seq(1), n_seq(end),i_seq(1),i_seq(end))];
 if ~exist(gif_Filename,'file') 
+    
     for mm = m_seq
           for nn = n_seq
                for ii = i_seq
@@ -78,7 +79,8 @@ if ~exist(gif_Filename,'file')
                 end       
           end
     end
-    fig = figure;
+    im = cell(1,steps);
+    fig = figure(14);
     for l = 0:steps-1
         count = 1;
         for mm = m_seq
@@ -101,8 +103,10 @@ if ~exist(gif_Filename,'file')
         frame = getframe(fig);
         im{l+1} = frame2im(frame);
     end
-    im_to_gif(gif_Filename,im,1:steps);
+    close;
+    im_to_gif_dt(gif_Filename,im, dt);
 end
+
 
 
 %% 3 Compute coefficients A_lambda for phi)lambda from given initial displacemet alpda(r, theta)
@@ -140,7 +144,7 @@ print('results/IC.png','-dpng');
 gif_Filename = [result_path,sprintf('GIF_soln_u_c_%i_a_%i_alpha_14_1_61_2.gif', c, a)];
 
 %% 3 Solution u: movie
-dt = 0.1; L = 20; steps = numel(0:dt:L);
+dt = 0.1; L = 15; steps = numel(0:dt:L);
 [r_mesh, theta_mesh, time_mesh] = meshgrid(linspace(0,a,20), linspace(-pi,pi,100), 0:dt:L);
 x_mesh = r_mesh(:,:,1).*cos(theta_mesh(:,:,1)); y_mesh = r_mesh(:,:,1).*sin(theta_mesh(:,:,1));
 
@@ -187,7 +191,6 @@ xlabel('x');  ylabel('y');
         time = dt * l;
         figure(14);
         colormap(autumn(100));  view([-40,60]); 
-        colorbar;
         surf(x_mesh, y_mesh, vibration(:,:,l+1), 'EdgeAlpha', 0.3);
         bds = sum(weights, 'all');
         xlabel('x');  ylabel('y'); zlim([-bds,bds]);  
@@ -197,7 +200,7 @@ xlabel('x');  ylabel('y');
         frame = getframe(fig);
         im{l+1} = frame2im(frame);
     end
-    im_to_gif(gif_Filename,im,1:steps);
+    im_to_gif_dt(gif_Filename, im, dt);
 end
 
 %% Bessel J functions plot
@@ -209,7 +212,7 @@ end
 figure;
 plot(z,J, 'Linewidth',2)
 grid on
-legend('J_0','J_1','J_2','J_3','J_4','Location','Best')
+legend('\color{white}J_0','\color{white}J_1','\color{white}J_2','\color{white}J_3','\color{white}J_4','Color',[0 0 0],'EdgeColor',[1 1 1],'Location','Best')
 title('Bessel Functions of the First Kind for $m \in [0, 4]$','interpreter','latex')
 xlabel('$z$','interpreter','latex')
 ylabel('$J_m(z)$','interpreter','latex');

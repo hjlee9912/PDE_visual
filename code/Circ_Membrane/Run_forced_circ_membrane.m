@@ -48,7 +48,7 @@ end
 alpha = @(r, theta) eig_functions{1,4,1}(r, theta) + 2*eig_functions{6,1,1}(r, theta);
 gif_Filename = [result_path, sprintf('GIF_soln_u_c_%i_a_%i_alpha_14_1_61_2.gif', c, a)];
 % force Q(r, theta, t) = weighted sum of eig_functions
-force_type = 'increase';
+force_type = 'resonance';
 gif_Filename = strrep(gif_Filename, '_u_', ['_u_Force_',force_type,'_'] );
 q_i = cell(M+1, N, 2);
 switch force_type
@@ -67,40 +67,22 @@ switch force_type
 end
 q_i(cellfun(@isempty,q_i)) = {@(t) 0};
 % time steps settings
-dt = 0.1; L = 30; steps = numel(0:dt:L);
-% plot external force Q
-[r_mesh, theta_mesh, time_mesh] = meshgrid(0:0.05:a, linspace(-pi,pi,100), 0:dt:L);
+dt = 0.1; L = 10; steps = numel(0:dt:L);
+
+% plot eig_fun(m,n,i)
+%{
+[r_mesh, theta_mesh] = meshgrid(0:0.05:a, linspace(-pi,pi,100));
 x_mesh = r_mesh(:,:,1).*cos(theta_mesh(:,:,1)); y_mesh = r_mesh(:,:,1).*sin(theta_mesh(:,:,1));
-gif_Filename_force = strrep(gif_Filename, 'soln_u_', 't0');
-if ~exist(gif_Filename_force,'file')      
-    force = Q(r_mesh, theta_mesh, time_mesh); 
-    bds = max(force, [],'all');
-    for l = 0:0    
-        time = dt * l;
-        fig = figure(14);
-        colormap(autumn(100));  view([-40,60]); 
-        colorbar;
-        surf(x_mesh, y_mesh, force(:,:,l+1));
-        xlabel('x');  ylabel('y'); zlim([-bds,bds]);  
-        sgtitle({['Time t = ', num2str(time,'%.2f')]}, 'Color', [1,1,1],'FontSize', 20); 
-        darkBackground(fig,[0 0 0],[1 1 1]);
-        drawnow; 
-        frame = getframe(fig);
-        im{l+1} = frame2im(frame);
-    end
-    im_to_gif(gif_Filename_force,im,1:steps);
-end
-% plot eig_fun(1,1)
+
 phi_1 = eig_functions{1,1,1}(r_mesh(:,:,1), theta_mesh(:,:,1), time_mesh(:,:,1));
 fig = figure(14);
 colormap(autumn(100));  view([-40,60]); 
-colorbar;
 surf(x_mesh, y_mesh, phi_1);
 xlabel('x');  ylabel('y'); zlim([-0.2,1]);  
 title('\phi_{0,1}', 'Color', [1,1,1],'FontSize', 20); 
 darkBackground(fig,[0 0 0],[1 1 1]);set(gcf, 'InvertHardCopy', 'off'); 
 print(['results\phi1.png'],'-dpng');
-
+%}
 
 integral_term = zeros(M+1, N, 2, steps);
 for m = 0:M
@@ -163,11 +145,11 @@ if ~exist(gif_Filename,'file')
         vibration(:,:,l+1) = u{l+1}(r_mesh, theta_mesh);            
     end
     bds = max(vibration, [],'all');
+    im = cell(1,steps);
+    fig = figure(14);
     for l = 0:steps-1    
-        time = dt * l;
-        fig = figure(14);
-        colormap(autumn(100));  view([-33,71]); 
-        colorbar;
+        time = dt * l;   
+        colormap(autumn(100));  view([-40,60]); 
         surf(x_mesh, y_mesh, vibration(:,:,l+1));
         xlabel('x');  ylabel('y'); zlim([-bds,bds]);  
         sgtitle({['Time t = ', num2str(time,'%.2f')]}, 'Color', [1,1,1],'FontSize', 20); 
@@ -176,7 +158,7 @@ if ~exist(gif_Filename,'file')
         frame = getframe(fig);
         im{l+1} = frame2im(frame);
     end
-    im_to_gif(gif_Filename,im,1:steps);
+    im_to_gif_dt(gif_Filename,im,dt);
 end
 
 
