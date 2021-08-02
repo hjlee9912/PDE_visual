@@ -1,0 +1,160 @@
+
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   packages    %%%%%%%%%
+\usepackage[small,compact]{titlesec}
+\usepackage{amsmath,amssymb,amsfonts,mathabx,setspace}
+\usepackage{graphicx,caption,epsfig,subfigure,epsfig,wrapfig}
+\usepackage{url,color,verbatim,algorithmic}
+\usepackage[sort,compress]{cite}
+\usepackage[ruled,boxed]{algorithm}
+\usepackage[scaled]{helvet}
+\usepackage[T1]{fontenc}
+\usepackage[bookmarks=true, bookmarksnumbered=true, colorlinks=true,   pdfstartview=FitV,
+linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+
+%%%%%%%%%%%----   page settings   ----- %%%%%%%%%
+\marginparwidth 0pt
+\oddsidemargin  -0.15in   % = 0.38 cm
+\evensidemargin  -0.15in % = 0.38 cm
+\marginparsep 0pt
+\topmargin   -.55in   % = 1.40 cm
+\textwidth   6.8in      % = 17.27 cm
+\textheight  9.3in      % = 23.87 cm
+%\footskip 3mm
+%\setstretch{1.05}  \hoffset=-0.1in  \voffset= -0.8in
+\parskip=0.0in
+
+
+%%%%%%%%%%%----  new commands/defs   ----- %%%%%%%%%
+\def\clattice{c_{\mathrm{lat}}}           
+\def\Rn{\mathbb{R}^n}
+\def\R{\mathbb{R}}                            
+\def\P{\mathbb{P}}
+\def\bbeta{\bm \beta}                        
+\newcommand{\E}[1]{\mathbb{E}\left[{#1}\right]}
+\newcommand{\rbracket}[1]{\left(#1\right)}
+\newcommand{\sbracket}[1]{\left[#1\right]}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\normv}[1]{\left| #1\right|}
+\newcommand{\innerp}[1]{\langle{#1}\rangle}
+\newcommand{\dbinnerp}[1]{\langle\langle{#1}\rangle\rangle}
+\newcommand{\vect}[1] {\pmb{#1}}
+\newcommand{\mat}[1]{\pmb{#1}}
+\newcommand{\floor}[1]{\lfloor{#1}\rfloor}
+
+\newcommand{\Ito}{It\^o}
+
+%% Note commands
+% \usepackage{soul,array}
+%% margin notes
+%\newcommand{\note}[1]{\marginpar{\renewcommand{\baselinestretch}{1.0}{\scriptsize{\parbox{0.5in}{\raggedright{\bf{\sffamily #1}}}}}}}
+%\newcommand{\fnote}[1]{\note{Fei: {#1}}}
+%\newcommand{\frem}[1]{{\textcolor{cyan}{[Fei: {#1}]}}}
+%\newcommand{\fnew}[1]{{\textcolor{blue}{#1}}}
+%\newcommand{\fpar}[1]{\bigskip\noindent{\em {#1}}}
+% \newcommand{\floor}[1]{{\lfloor{#1}\rfloor}}
+\newcommand{\blue}[1]{\textcolor{blue}{{#1}}}
+\newcommand{\frem}[1]{{\textcolor{cyan}{[Remark: {#1}]}}}
+\newcommand{\fqes}[1]{{\textcolor{red}{[{\bf Question:} {#1}]}}}
+
+%%%%%%%%%%%---- new environments  
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+% \newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+% \import{/Users/feilu/Documents/ref_abc}
+
+
+\begin{document}
+
+%%% ============== Title  =======
+\begin{center}
+\textbf{\Large Sturm-Liouville Eigenvalue Problem and numerical solution} \\[0pt]
+\vspace{4mm} Fei Lu\\
+ feilu@math.jhu.edu \\
+Last updated: \today  
+\end{center}
+ 
+% \title{Reduction using local average and rescaling}
+% \author{}  \maketitle
+
+\begin{abstract}
+Summary: numerical solution to the SLEP by finite difference. 
+ \end{abstract}
+
+
+% \tableofcontents
+
+\section{The Sturm-Liouville Eigenvalue problem}
+
+
+\begin{align*}
+&(p(x)\phi')'  + q(x)\phi = -\lambda \sigma \phi \\
+ &  \beta_1\phi(a) + \beta_2\phi'(a) = 0;   \\ % \partial_t u(x,0) = g(x) \\
+ &   \beta_3\phi(b) + \beta_4\phi'(b) = 0;   
+\end{align*}
+
+
+\textbf{Regular SLEP:} \vspace{-3mm}
+\begin{align*}
+& p', q,\sigma  \in C[a,b], \quad\\
+& p(x)>0, \sigma(x)>0, \forall x\in [a,b] \\
+& \beta_1^2+\beta_2^2 >0, \beta_3^2+\beta_4^2 >0, 
+\end{align*}
+
+\begin{theorem}[ Sturm-Liouville Theorems] A regular SLEP has eigenvalues and eigenfunctions $\{(\lambda_n,\phi_n)\}$ s.t.~
+\begin{enumerate}
+\item[1-2] $\{\lambda_n\}_{n=1}^\infty$ are real and strictly increasing to $\infty$
+\item[3] $\phi_n$ is the unique (up to a multiplicative factor) solution to $\lambda_n$; 
+        $\phi_n$ has $n-1$ zeros
+\item[4] $\{\phi_n\}_{n=1}^\infty$ is complete. That is, any piecewise smooth $f$ can be represented by a generalized Fourier series  
+$ f(x) \sim \sum_{n=1}^\infty a_n \phi_n(x) =\frac{1}{2}[f(x_-)+f(x_+)]$  
+\item[5] $\{\phi_n\}_{n=1}^\infty$  are orthogonal: $\innerp{\phi_n,\phi_m}_\sigma= 0$ if $n\neq m$; $\innerp{\phi_n,\phi_n}_\sigma>0$ \
+\item[6] Rayleigh quotient   $\lambda_n= -\frac{\innerp{L\phi_n,\phi_n}}{\innerp{\phi_n,\phi_n}_\sigma }$;  \quad 
+\end{enumerate}
+where $ \innerp{f,g} := \int_a^bf(x)g(x) dx $; \quad$ \innerp{f,g}_\sigma := \int_a^bf(x)g(x)  \sigma(x) dx$.
+\end{theorem}
+
+
+\bigskip
+Example: when $p(x)=1$ for all $x$ and $q=0$. The eigenvalues and eigenfunctions are $\lambda_n = (\frac{n\pi }{b-a})^2$
+\section{Finite difference approximations}
+The simplest approximation is finite difference approximation. We approximate the 1st and 2nd order derivatives by central difference: 
+\begin{align*}
+y'(x) & = \frac{y(x+h) - y(x-h)}{2h} + O(h^2), \\
+y''(x) & = \frac{y(x+h) + y(x-h) - 2y(x)}{h^2} + O(h^2),
+\end{align*}
+where the order of error follows from Taylor expansion, assuming that the function $y$ has bounded 3rd order derivatives on $[a,b]$. 
+
+Let 
+
+
+% \bibliographystyle{alpha}
+%\bibliography{references}
+
+\begin{thebibliography}{9}
+\bibitem{einstein} 
+Albert Einstein. 
+\textit{Zur Elektrodynamik bewegter K{\"o}rper}. (German) 
+[\textit{On the electrodynamics of moving bodies}]. 
+Annalen der Physik, 322(10):891–921, 1905.
+
+\bibitem{knuthwebsite} 
+Knuth: Computers and Typesetting,
+\\\texttt{http://www-cs-faculty.stanford.edu/\~{}uno/abcde.html}
+\end{thebibliography}
+
+
+
+
+\end{document}

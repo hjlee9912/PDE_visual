@@ -26,8 +26,10 @@ x  = a:dx:b;       % domain
 [P,dPdx] = fn_p(x); % evaluate p(x) and p'(x)
 Q        = fn_q(x); % evaluate Q(x)
 R        = fn_r(x); % evaluate R(x), the weight function
-[v,e]    = SLEP(N,x,P,dPdx,Q,R,'mixed'); % solve SLEP, vector and eigenvaluse (ascending)
-%BC types are 'Dirichlet', 'Neumann', and 'mixed'
+BC_type  = 'mixed';      % BC types are 'Dirichlet', 'Neumann', and 'mixed'
+[v,e]    = SLEP(N,x,P,dPdx,Q,R,BC_type); % solve SLEP, vector and eigenvaluse (ascending)
+
+
 fig=figure;
 plot(x',v(:,1:3),'linewidth',2)
 darkBackground(fig,[0 0 0],[1 1 1]); set_positionFontsAll;
@@ -59,4 +61,4 @@ figure;
 image(orthogonal,'CDataMapping','scaled')
 c=colorbar;
 ylabel(c,'orthogonality')
-title('Orthogonality of regular SLEP eigenfunctions')
+title('Orthogonality of SLEP eigenfunctions')
