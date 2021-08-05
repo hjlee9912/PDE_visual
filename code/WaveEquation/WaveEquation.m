@@ -89,7 +89,7 @@ end
     for t = 1:0.2:tt
         u_1 = 0.5*f((x-c*t));
         u_2 = 0.5*f((x+c*t));
-        u_tS = u_1+u_2; %Superposition of the two waves
+        u_tS = 0.5*(u_1+u_2); %Superposition of the two waves
         plot(x,u_1,'r-','LineWidth',2); 
         hold on
         plot(x,u_2,'b-','LineWidth',2,'MarkerIndices',[100],'MarkerSize',30);
@@ -115,7 +115,7 @@ end
     for t = 1:0.2:tt
         u_1 = 0.5*h((x-c*t));
         u_2 = 0.5*h((x+c*t));
-        u_tS = u_1+u_2; %Superposition of the two waves
+        u_tS = 0.5*(u_1+u_2); %Superposition of the two waves
         plot(x,u_1,'r-','LineWidth',2); 
         hold on
         plot(x,u_2,'b-','LineWidth',2);
@@ -140,7 +140,7 @@ end
     for t = 1:0.2:tt
         u_1 = 0.5*p((x-c*t));
         u_2 = 0.5*p((x+c*t));
-        u_tS = u_1+u_2; %Superposition of the two waves
+        u_tS = 0.5*(u_1+u_2); %Superposition of the two waves
         plot(x,u_1,'r-','LineWidth',2); 
         hold on
         plot(x,u_2,'b-','LineWidth',2);
