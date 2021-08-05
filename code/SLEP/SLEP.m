@@ -11,6 +11,7 @@ Method: finite difference for the derivatives
     (1) make B symmetric; (2) finite volume; (3) high-order approimation
     (4) get Bessel, Legendre,Laguerre,Hermite polynomials
     (5) research: inverse problem of estimating p q.
+-- Comment: Central difference vs Forward diff for y': there is only tiny difference. 
 %}
 
 %  v is (N+1)x(N+1) matrix where the 1st and last rows satisfy BC 
@@ -92,8 +93,8 @@ switch type
         A(N+1,N+1)=1;
         A = dx^(-2)*A.*PP;
         %B contains y' part
-        %B = diag(-1*ones(1,N+1))+diag(ones(1,N),1);B(N+1,N+1) = 0; 
-        B = diag(-1*ones(1,N),-1)+diag(ones(1,N),1); B=B/2; B(N+1,:)=0;  % central difference === not done yet, what should the BC be? 
+        % B = diag(-1*ones(1,N+1))+diag(ones(1,N),1);B(N+1,N+1) = 0; 
+        B = diag(-1*ones(1,N),-1)+diag(ones(1,N),1); B=B/2; B(N+1,:)=0;  
         B = -1*dx^(-1)*B.*dPPdx;
         %C is q(x)y part
         C = -1*QQ;

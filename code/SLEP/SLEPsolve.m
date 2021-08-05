@@ -26,16 +26,17 @@ x  = a:dx:b;       % domain
 [P,dPdx] = fn_p(x); % evaluate p(x) and p'(x)
 Q        = fn_q(x); % evaluate Q(x)
 R        = fn_r(x); % evaluate R(x), the weight function
-BC_type  = 'mixed';      % BC types are 'Dirichlet', 'Neumann', and 'mixed'
+BC_type  = 'Dirichlet';      % BC types are 'Dirichlet', 'Neumann', and 'mixed'
 [v,e]    = SLEP(N,x,P,dPdx,Q,R,BC_type); % solve SLEP, vector and eigenvaluse (ascending)
 
 
-fig=figure;
-plot(x',v(:,1:3),'linewidth',2)
+fig=figure; 
+% v(:,[3]) = - v(:,[3]);     % flip the sign of the eigenfucntion 
+plot(x',v(:,1:3),'linewidth',2); 
 darkBackground(fig,[0 0 0],[1 1 1]); set_positionFontsAll;
 xlabel('\color{white}x')
 legend('\color{white}\phi_1', '\color{white}\phi_2','\color{white}\phi_3','location','best')
-
+% print('eigenFns_fowardDiff.pdf','-dpdf');
 
 %% Spectral analysis: 
 % 1. plot the eigenvalues 
