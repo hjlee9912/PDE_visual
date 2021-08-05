@@ -65,9 +65,8 @@ switch type
         A(N+2,N+2)=1;A(1,1)=1;
         A = dx^(-2)*A.*PP;
         %B contains y' part
-         B = diag(ones(1,N+2))-diag(ones(1,N+1),1);          % forward difference
-        % B = diag(ones(1,N+1),-1)-diag(ones(1,N+1),1); B=B/2;   % central difference  % TO BE checked: BC?
-        B(N+2,N+2) = 0; 
+        %         B = diag(ones(1,N+2))-diag(ones(1,N+1),1); B(N+2,N+2) = 0; 
+        B = diag(ones(1,N+1),-1)-diag(ones(1,N+1),1); B=B/2; B(1,:)=0; B(N+2,:)=0;  % central difference  
         B = dx^(-1)*B.*dPPdx;
         %C is q(x)y part
         C = -1*QQ;
@@ -93,10 +92,9 @@ switch type
         A(N+1,N+1)=1;
         A = dx^(-2)*A.*PP;
         %B contains y' part
-         B = diag(-1*ones(1,N+1))+diag(ones(1,N),1);  % forward difference
-        B(N+1,N+1) = 0; 
+        %B = diag(-1*ones(1,N+1))+diag(ones(1,N),1);B(N+1,N+1) = 0; 
+        B = diag(-1*ones(1,N),-1)+diag(ones(1,N),1); B=B/2; B(N+1,:)=0;  % central difference === not done yet, what should the BC be? 
         B = -1*dx^(-1)*B.*dPPdx;
-%        B = diag(ones(1,N),-1)-diag(ones(1,N),1); B=B/2;   % central difference === not done yet, what should the BC be? 
         %C is q(x)y part
         C = -1*QQ;
         D = (A+B+C); %linear operation
