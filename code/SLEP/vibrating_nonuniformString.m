@@ -42,8 +42,8 @@ c=colorbar;
 fx = f(x); gx = g(x);
 an = zeros(1,N); bn = an; %solve coefficients  using orthogonality
 for n=1:N
-    an(n)=sum(gx.*v(:,n).*R)/(e(n)^(0.5)*sum(v(:,n).^2.*R));
-    bn(n)=sum(fx.*v(:,n).*R)/(sum(v(:,n).^2.*R));
+    an(n)=dot(gx.*v(:,n)',R)*dx/(e(n)^(0.5)*(dot(v(:,n)'.^2,R)*dx));
+    bn(n)=dot(fx.*v(:,n)',R)*dx/(dot(v(:,n)'.^2,R)*dx);
 end
 
 %evaluate u and create animation
